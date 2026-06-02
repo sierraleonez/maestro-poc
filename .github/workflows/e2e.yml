@@ -83,4 +83,12 @@ jobs:
             adb install apk/app-release.apk
             
             # Execute your tests
-            maestro test maestro.yaml
+            maestro test --format junit --output report.xml maestro.yaml
+      - name: Upload Test Reports & Screenshots
+        uses: actions/upload-artifact@v4
+        if: always() # CRITICAL: Ensures files upload even if Maestro tests fail
+        with:
+          name: maestro-test-results
+          path: |
+            report.xml
+            ~/.maestro/tests/
