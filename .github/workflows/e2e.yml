@@ -1,13 +1,13 @@
-name: Maestro E2E PoC
+name: Maestro E2E PoC (With AVD Caching)
 
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # Allows you to trigger this manually from the GitHub UI
+  workflow_dispatch:
 
 jobs:
   maestro-test:
-    runs-on: ubuntu-latest # Free tier Linux runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -19,39 +19,68 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Install Maestro CLI directly onto the runner host
       - name: Install Maestro CLI
         run: |
           curl -fsSL "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
-      # Enable KVM permissions on the Linux Host so the emulator runs smoothly
+      - name: Verify Maestro Installation
+        run: |
+          export PATH="$HOME/.maestro/bin:$PATH"
+          if ! command -v maestro &> /dev/null; then
+            echo "❌ Maestro CLI not found."
+            exit 1
+          fi
+          echo "✅ Maestro Ready: $(maestro --version)"
+
+      # --- EMULATOR CACHE LAYER START ---
+      - name: AVD Cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          # The key binds the cache to the specific API level
+          key: avd-api30-v1
+
       - name: Enable KVM group perms
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      # Spin up the Android Emulator and run the tests
-      - name: Run Maestro Flows on Android Emulator
+      # PRIME STEP: Only runs if there's no cache. Creates a fresh, clean snapshot.
+      - name: Generate AVD Snapshot (On Cache Miss)
+        if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
           target: google_apis
           arch: x86_64
           force-avd-creation: false
-          disable-spellchecker: true
-          cores: 2
-          ram-size: 2048M
-          # The script to run once the emulator is completely booted
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          disable-animations: false
+          script: echo "Clean AVD snapshot generated and saved to cache!"
+      # --- EMULATOR CACHE LAYER END ---
+
+      # RUNNER STEP: Actually runs your tests utilizing the cached snapshot
+      - name: Run Maestro Flows on Cached Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: false
+          # CRITICAL: -no-snapshot-save ensures your tests don't mess up the cache baseline
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          disable-animations: true
           script: |
-            echo "Emulator is up! Checking connected devices..."
+            echo "Emulator loaded directly from cached snapshot state!"
             adb devices
             
-            echo "Installing your application..."
-            # Replace this path with the actual path to your generated .apk file
+            # Install your app
             adb install apk/app-release.apk
             
-            echo "Executing Maestro E2E Flows..."
-            # Replace 'maestro_flows/' with your actual folder holding your yaml files
+            # Execute your tests
             maestro test maestro.yaml
