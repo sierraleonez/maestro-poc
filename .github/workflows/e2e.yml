@@ -50,7 +50,7 @@ jobs:
             
             echo "Installing your application..."
             # Replace this path with the actual path to your generated .apk file
-            adb install android/app/build/outputs/apk/debug/app-debug.apk 
+            adb install apk/app-release.apk
             
             echo "Executing Maestro E2E Flows..."
             # Replace 'maestro_flows/' with your actual folder holding your yaml files
