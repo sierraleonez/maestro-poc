@@ -1,0 +1,23 @@
+appId: vtglobal.appdev
+---
+- waitForAnimationToEnd:
+    timeout: 5000
+
+# Tap the breaking news banner to open detail
+- extendedWaitUntil:
+    visible:
+      id: ${output.news.breakingNewsBanner}
+    timeout: 10000
+- tapOn:
+    id: ${output.news.breakingNewsBanner}
+- takeScreenshot: '01_News_Detail_Opened'
+
+- extendedWaitUntil:
+    visible:
+      id: ${output.news.detailTitle}
+    timeout: 10000
+- takeScreenshot: '02_News_Detail_Content_Loaded'
+
+- assertVisible:
+    id: ${output.news.detailBtnViewProduct}
+- takeScreenshot: '03_News_Detail_View_Product_Visible'

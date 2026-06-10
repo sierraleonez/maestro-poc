@@ -1,0 +1,24 @@
+appId: vtglobal.appdev
+---
+- takeScreenshot: '01_Create_Account'
+- waitForAnimationToEnd:
+    timeout: 20000
+- runFlow:
+    file: ../../../../utils/text-input/clear.yaml
+    env:
+      INPUT_ID: ${output.createAccount.inputEmail}
+
+- tapOn:
+    id: ${output.createAccount.inputEmail}
+- inputText: ${output.env.EMAIL}
+- hideKeyboard
+
+- runFlow:
+    file: ../../../../utils/dropdown/fill-dropdown.yaml
+    env:
+      DROPDOWN_ID: ${output.createAccount.dropdownCountry}
+      OPTION: ${output.env.COUNTRY}
+
+- tapOn:
+    id: ${output.createAccount.btnContinue}
+- takeScreenshot: '02_Create_Account_Filled'

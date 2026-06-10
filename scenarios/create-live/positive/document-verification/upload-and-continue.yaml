@@ -1,0 +1,21 @@
+appId: vtglobal.appdev
+---
+- waitForAnimationToEnd:
+    timeout: 10000
+- extendedWaitUntil:
+    visible: 'Document Verification'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 10000
+- extendedWaitUntil:
+    visible: 'I confirm that I have read the Privacy Notice and the Notification to Processing of Personal Data'
+    timeout: 10000
+
+- runScript: ../../../../scripts/upload-sumsub-docs.js
+
+- tapOn: 'I confirm that I have read the Privacy Notice and the Notification to Processing of Personal Data'
+- tapOn: 'Continue'
+- takeScreenshot: '05_Document_Verification'
+- tapOn:
+    id: ${output.documentVerification.btnContinue}
+    enabled: true

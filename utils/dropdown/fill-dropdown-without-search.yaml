@@ -1,0 +1,10 @@
+appId: vtglobal.appdev
+---
+- tapOn:
+    id: ${DROPDOWN_ID}
+- extendedWaitUntil:
+    visible:
+      id: ${OPTION}
+    timeout: 10000
+- tapOn:
+    id: ${OPTION}

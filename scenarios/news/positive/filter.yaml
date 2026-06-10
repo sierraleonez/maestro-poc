@@ -1,0 +1,27 @@
+appId: vtglobal.appdev
+---
+- waitForAnimationToEnd:
+    timeout: 5000
+
+- tapOn:
+    id: ${output.news.btnFilter}
+- takeScreenshot: '01_News_Filter_Opened'
+
+- extendedWaitUntil:
+    visible:
+      id: ${output.news.filterBtnApply}
+    timeout: 10000
+
+# Select the first available filter badge
+- tapOn:
+    id: ${output.news.filterBtnApply}
+    index: 0
+- takeScreenshot: '02_News_Filter_Option_Selected'
+
+- tapOn:
+    id: ${output.news.filterBtnApply}
+- takeScreenshot: '03_News_Filter_Applied'
+
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: '04_News_List_Filtered'

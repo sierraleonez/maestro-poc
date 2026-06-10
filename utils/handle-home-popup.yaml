@@ -1,0 +1,13 @@
+appId: vtglobal.appdev
+---
+- runFlow:
+    when:
+      visible: 'Get Started'
+    commands:
+      - tapOn: 'Get Started'
+
+- runFlow:
+    when:
+      visible: "Don't allow"
+    commands:
+      - tapOn: "Don't allow"

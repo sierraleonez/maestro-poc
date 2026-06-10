@@ -1,0 +1,30 @@
+appId: vtglobal.appdev
+---
+- launchApp:
+    clearState: true
+    arguments:
+      isMaestro: true
+- waitForAnimationToEnd:
+    timeout: 30000
+
+# If language selection visible, complete onboarding to reach login
+- runFlow:
+    when:
+      visible:
+        id: ${output.selectLang.radioEn}
+    commands:
+      - tapOn:
+          id: ${output.selectLang.radioEn}
+      - tapOn:
+          id: ${output.selectLang.btnContinue}
+      - extendedWaitUntil:
+          visible:
+            id: ${output.video.btnLogin}
+          timeout: 5000
+      - tapOn:
+          id: ${output.video.btnLogin}
+
+- extendedWaitUntil:
+    visible:
+      id: ${output.login.inputEmail}
+    timeout: 10000

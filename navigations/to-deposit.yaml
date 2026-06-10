@@ -1,0 +1,56 @@
+appId: vtglobal.appdev
+---
+- launchApp:
+    clearState: true
+    arguments:
+      isMaestro: true
+
+# If first launch, run onboarding
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: ${output.selectLang.radioEn}
+    commands:
+      - tapOn:
+          id: ${output.selectLang.radioEn}
+      - tapOn:
+          id: ${output.selectLang.btnContinue}
+      - extendedWaitUntil:
+          visible:
+            id: ${output.video.btnLogin}
+          timeout: 5000
+      - tapOn:
+          id: ${output.video.btnLogin}
+
+# Login (always runs — clearState ensures we land on login screen)
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: ${output.login.inputEmail}
+    timeout: 10000
+- tapOn:
+    id: ${output.login.inputEmail}
+- inputText: ${output.env.REGISTERED_EMAIL}
+- tapOn:
+    id: ${output.login.inputPassword}
+- inputText: ${output.env.REGISTERED_PASSWORD}
+- hideKeyboard
+- assertVisible:
+    id: ${output.login.btnLogin}
+- tapOn:
+    id: ${output.login.btnLogin}
+- extendedWaitUntil:
+    visible: 'Select Your Account'
+    timeout: 15000
+- tapOn: ${output.env.ACCOUNT_NUMBER}
+- tapOn:
+    id: ${output.accountSelection.btnTradeNow}
+
+# Handle popups and wait for home
+- runFlow: ../utils/handle-home-popup.yaml
+- runFlow: ../utils/wait-home-loaded.yaml
+
+# Navigate to deposit
+- tapOn:
+    id: ${output.home.btnMenuDeposit}

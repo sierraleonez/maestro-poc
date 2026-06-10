@@ -1,0 +1,6 @@
+appId: vtglobal.appdev
+---
+- extendedWaitUntil:
+    visible:
+      id: ${output.home.listAccountLive}
+    timeout: 15000

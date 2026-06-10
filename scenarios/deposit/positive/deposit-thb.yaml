@@ -1,0 +1,33 @@
+appId: vtglobal.appdev
+---
+# Assumes already on Deposit screen
+- scrollUntilVisible:
+    element:
+      id: ${output.deposit.btnMethodPrefix + 'thai-qr-and-bank-transfer'}
+- tapOn:
+    id: ${output.deposit.btnMethodPrefix + 'thai-qr-and-bank-transfer'}
+- takeScreenshot: '02_Thailand_Payment_Selected'
+
+- tapOn:
+    id: ${output.deposit.currencyInputPrefix + 'USD'}
+- inputText: '100'
+- hideKeyboard
+- takeScreenshot: '03_Amount_Entered'
+- tapOn:
+    id: ${output.deposit.btnSubmit}
+
+- takeScreenshot: '04_Webview_Loaded'
+- extendedWaitUntil:
+    visible: 'Generate QR Code'
+    timeout: 15000
+- tapOn: 'Generate QR Code'
+- takeScreenshot: '05_QR_Code_Generated'
+- extendedWaitUntil:
+    visible: 'Payment Completed'
+    timeout: 30000
+- tapOn: 'Payment Completed'
+
+- extendedWaitUntil:
+    visible: 'Deposit History'
+    timeout: 10000
+- takeScreenshot: '06_Deposit_History'

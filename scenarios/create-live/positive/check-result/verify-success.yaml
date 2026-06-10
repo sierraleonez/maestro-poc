@@ -1,0 +1,21 @@
+appId: vtglobal.appdev
+---
+- runFlow:
+    when:
+      visible: 'Congratulations'
+    commands:
+      - takeScreenshot: '10_Result_Success'
+      - tapOn: 'Finish'
+
+- runFlow:
+    when:
+      visible: 'Pending Verification'
+    commands:
+      - takeScreenshot: '10_Result_Pending'
+      - tapOn: 'Finish'
+
+- runFlow:
+    when:
+      visible: 'Registration Failed'
+    commands:
+      - takeScreenshot: '10_Result_Failed'

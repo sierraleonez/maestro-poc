@@ -1,0 +1,11 @@
+appId: vtglobal.appdev
+tags:
+  - news
+  - positive
+  - smoke
+env:
+  SUITE: news-pos-view-list
+---
+- runFlow: ../../../config/init.yaml
+- runFlow: ../../../navigations/to-news.yaml
+- runFlow: ../../../scenarios/news/positive/view-list.yaml

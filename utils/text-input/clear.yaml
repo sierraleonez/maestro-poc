@@ -1,0 +1,14 @@
+appId: vtglobal.appdev
+---
+- copyTextFrom:
+    id: ${INPUT_ID}
+- evalScript: ${output.COPIED_TEXT = maestro.copiedText}
+- runFlow:
+    label: 'Empty field if pre-filled'
+    when:
+      true: ${output.COPIED_TEXT !== ''}
+    commands:
+      - longPressOn:
+          id: ${INPUT_ID}
+          point: "60%,50%"
+      - eraseText: 1

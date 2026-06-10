@@ -1,0 +1,16 @@
+appId: vtglobal.appdev
+---
+- runScript: selectLang.js
+- runScript: video.js
+- runScript: login.js
+- runScript: accountSelection.js
+- runScript: home.js
+- runScript: createAccount.js
+- runScript: setupAccount.js
+- runScript: documentVerification.js
+- runScript: personalInformation.js
+- runScript: experience.js
+- runScript: deposit.js
+- runScript: bottomsheet.js
+- runScript: common.js
+- runScript: news.js

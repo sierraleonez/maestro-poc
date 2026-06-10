@@ -1,0 +1,11 @@
+appId: vtglobal.appdev
+tags:
+  - news
+  - positive
+  - regression
+env:
+  SUITE: news-pos-filter
+---
+- runFlow: ../../../config/init.yaml
+- runFlow: ../../../navigations/to-news.yaml
+- runFlow: ../../../scenarios/news/positive/filter.yaml

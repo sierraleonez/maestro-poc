@@ -1,0 +1,29 @@
+appId: vtglobal.appdev
+---
+- waitForAnimationToEnd:
+    timeout: 20000
+- runFlow:
+    file: ../../../../utils/text-input/clear.yaml
+    env:
+      INPUT_ID: ${output.createAccount.inputEmail}
+- tapOn:
+    id: ${output.createAccount.inputEmail}
+- inputText: ${output.env.DUPLICATE_EMAIL}
+- hideKeyboard
+
+- runFlow:
+    file: ../../../../utils/dropdown/fill-dropdown.yaml
+    env:
+      DROPDOWN_ID: ${output.createAccount.dropdownCountry}
+      OPTION: ${output.env.COUNTRY}
+
+- tapOn:
+    id: ${output.createAccount.btnContinue}
+- takeScreenshot: 'neg_duplicate_email_submitted'
+
+- extendedWaitUntil:
+    visible: 'already'
+    timeout: 10000
+- takeScreenshot: 'neg_duplicate_email_error_toast'
+
+- assertNotVisible: 'Setup Account'

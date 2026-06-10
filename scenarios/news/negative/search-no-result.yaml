@@ -1,0 +1,17 @@
+appId: vtglobal.appdev
+---
+- waitForAnimationToEnd:
+    timeout: 5000
+
+- tapOn:
+    id: ${output.news.inputSearch}
+- inputText: 'xyzxyzxyz123notexist'
+- hideKeyboard
+- takeScreenshot: 'neg_01_News_Search_No_Result_Entered'
+
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: 'neg_02_News_Search_No_Result_State'
+
+- assertNotVisible:
+    id: ${output.news.breakingNewsBanner}

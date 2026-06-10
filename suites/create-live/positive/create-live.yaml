@@ -1,0 +1,16 @@
+appId: vtglobal.appdev
+tags:
+  - create-live
+  - positive
+  - regression
+env:
+  SUITE: create-live-pos-create-live
+---
+- runFlow: ../../../config/init.yaml
+- runFlow: ../../../navigations/to-create-live.yaml
+- runFlow: ../../../scenarios/create-live/positive/create-account/fill-and-submit.yaml
+- runFlow: ../../../scenarios/create-live/positive/setup-account/fill-and-submit.yaml
+- runFlow: ../../../scenarios/create-live/positive/document-verification/upload-and-continue.yaml
+- runFlow: ../../../scenarios/create-live/positive/personal-information/fill-and-submit.yaml
+- runFlow: ../../../scenarios/create-live/positive/experience/fill-and-submit.yaml
+- runFlow: ../../../scenarios/create-live/positive/check-result/verify-success.yaml

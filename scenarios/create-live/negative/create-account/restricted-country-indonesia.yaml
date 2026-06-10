@@ -1,0 +1,32 @@
+appId: vtglobal.appdev
+---
+- waitForAnimationToEnd:
+    timeout: 20000
+
+- tapOn:
+    id: ${output.createAccount.dropdownCountry}
+- extendedWaitUntil:
+    visible:
+      id: ${output.bottomsheet.searchInput}
+    timeout: 10000
+- tapOn:
+    id: ${output.bottomsheet.searchInput}
+- inputText: 'Indonesia'
+- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'bottomsheet_indonesia'
+    timeout: 10000
+- tapOn:
+    id: 'bottomsheet_indonesia'
+
+- extendedWaitUntil:
+    visible: "Download Indonesia's Top Broker Trading App"
+    timeout: 10000
+- takeScreenshot: 'neg_indonesia_broker_sheet'
+
+- assertVisible: 'Back to Country Selection'
+- tapOn: 'Back to Country Selection'
+- takeScreenshot: 'neg_indonesia_sheet_dismissed'
+
+- assertNotVisible: "Download Indonesia's Top Broker Trading App"

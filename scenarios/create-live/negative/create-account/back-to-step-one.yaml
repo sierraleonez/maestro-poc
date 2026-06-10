@@ -1,0 +1,65 @@
+appId: vtglobal.appdev
+---
+# Step 1: Fill and submit Create Account
+- waitForAnimationToEnd:
+    timeout: 20000
+- runFlow:
+    file: ../../../../utils/text-input/clear.yaml
+    env:
+      INPUT_ID: ${output.createAccount.inputEmail}
+- tapOn:
+    id: ${output.createAccount.inputEmail}
+- inputText: ${output.env.EMAIL}
+- hideKeyboard
+
+- runFlow:
+    file: ../../../../utils/dropdown/fill-dropdown.yaml
+    env:
+      DROPDOWN_ID: ${output.createAccount.dropdownCountry}
+      OPTION: ${output.env.COUNTRY}
+
+- tapOn:
+    id: ${output.createAccount.btnContinue}
+- takeScreenshot: 'neg_back_step_01_first_submit'
+
+# Step 2: Fill and submit Setup Account
+- runFlow:
+    file: ../../positive/setup-account/fill-and-submit.yaml
+
+# Step 3: Reach Document Verification — go back to Setup Account
+- extendedWaitUntil:
+    visible: 'Document Verification'
+    timeout: 15000
+- takeScreenshot: 'neg_back_step_02_on_document_verification'
+- tapOn:
+    id: 'btn_back'
+
+# Now on Setup Account — go back to Create Account
+- extendedWaitUntil:
+    visible: 'Setup Account'
+    timeout: 10000
+- takeScreenshot: 'neg_back_step_03_on_setup_account'
+- tapOn:
+    id: 'btn_back'
+- takeScreenshot: 'neg_back_step_04_returned_to_create_account'
+
+# Assert we're back on Create Account
+- extendedWaitUntil:
+    visible:
+      id: ${output.createAccount.inputEmail}
+    timeout: 10000
+
+# Step 4: Clear email, fill with a different email, submit again
+- runFlow:
+    file: ../../../../utils/text-input/clear.yaml
+    env:
+      INPUT_ID: ${output.createAccount.inputEmail}
+- tapOn:
+    id: ${output.createAccount.inputEmail}
+- inputText: ${output.env.DUPLICATE_EMAIL}
+- hideKeyboard
+- takeScreenshot: 'neg_back_step_05_different_email_filled'
+
+- tapOn:
+    id: ${output.createAccount.btnContinue}
+- takeScreenshot: 'neg_back_step_06_second_submit'

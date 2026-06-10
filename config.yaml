@@ -1,0 +1,4 @@
+appId: vtglobal.appdev
+flows:
+  - "suites/**/*.yaml"
+testOutputDir: "evidence"

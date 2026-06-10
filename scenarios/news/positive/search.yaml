@@ -1,0 +1,14 @@
+appId: vtglobal.appdev
+---
+- waitForAnimationToEnd:
+    timeout: 5000
+
+- tapOn:
+    id: ${output.news.inputSearch}
+- inputText: ${output.env.NEWS_SEARCH_KEYWORD}
+- hideKeyboard
+- takeScreenshot: '01_News_Search_Entered'
+
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: '02_News_Search_Results'

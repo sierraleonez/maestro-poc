@@ -1,0 +1,12 @@
+appId: vtglobal.appdev
+tags:
+  - create-live
+  - negative
+  - create-account
+  - regression
+env:
+  SUITE: create-live-neg-duplicate-email
+---
+- runFlow: ../../../../config/init.yaml
+- runFlow: ../../../../navigations/to-create-live.yaml
+- runFlow: ../../../../scenarios/create-live/negative/create-account/duplicate-email.yaml

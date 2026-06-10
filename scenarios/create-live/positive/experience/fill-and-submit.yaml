@@ -1,0 +1,27 @@
+appId: vtglobal.appdev
+---
+- runScript: ../../../../scripts/fetch-answer-list.js
+
+- extendedWaitUntil:
+    visible: 'Experiences'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 10000
+
+- evalScript: ${output.index = 0}
+- repeat:
+    while:
+      true: ${output.index < output.answerList.length}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: '${output.experience.dropdownPrefix}${output.answerList[output.index].id}'
+      - runFlow:
+          file: ../../../../utils/dropdown/fill-dropdown-without-search.yaml
+          env:
+            DROPDOWN_ID: '${output.experience.dropdownPrefix}${output.answerList[output.index].id}'
+            OPTION: 'dropdown_item_${output.answerList[output.index].answer}'
+      - evalScript: ${output.index = output.index + 1}
+
+- takeScreenshot: '08_Experience'
+- tapOn: 'Continue'

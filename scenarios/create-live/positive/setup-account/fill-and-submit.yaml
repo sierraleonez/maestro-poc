@@ -1,0 +1,17 @@
+appId: vtglobal.appdev
+---
+- extendedWaitUntil:
+    visible: 'Setup Account'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 20000
+- takeScreenshot: '03_Setup_Account'
+- scrollUntilVisible:
+    element:
+      id: ${output.setupAccount.inputPassword}
+- tapOn:
+    id: ${output.setupAccount.inputPassword}
+- inputText: ${output.env.LIVE_PASSWORD}
+- hideKeyboard
+- tapOn: 'Continue'
+- takeScreenshot: '04_Setup_Account_Filled'

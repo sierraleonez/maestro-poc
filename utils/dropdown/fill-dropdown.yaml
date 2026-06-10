@@ -1,0 +1,18 @@
+appId: vtglobal.appdev
+---
+- tapOn:
+    id: ${DROPDOWN_ID}
+# - extendedWaitUntil:
+#     visible:
+#       id: ${output.bottomsheet.searchInput}
+#     timeout: 10000
+- tapOn:
+    id: ${output.bottomsheet.searchInput}
+- inputText: ${OPTION}
+- hideKeyboard
+# - extendedWaitUntil:
+#     visible:
+#       id: ${'bottomsheet_' + OPTION.toLowerCase().replaceAll(' ', '_')}
+#     timeout: 10000
+- tapOn:
+    id: ${'bottomsheet_' + OPTION.toLowerCase().replaceAll(' ', '_')}

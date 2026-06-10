@@ -1,0 +1,44 @@
+appId: vtglobal.appdev
+---
+- extendedWaitUntil:
+    visible: 'Personal Information'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 10000
+
+- tapOn: 'Phone Number'
+- inputText: 'abcdefgh'
+- hideKeyboard
+
+- tapOn: 'House Number'
+- inputText: ${output.env.HOUSE_NUMBER}
+- hideKeyboard
+
+- scrollUntilVisible:
+    element:
+      text: 'Street'
+- tapOn: 'Street'
+- inputText: ${output.env.STREET}
+- hideKeyboard
+
+- scrollUntilVisible:
+    element:
+      text: 'City Name'
+- tapOn: 'City Name'
+- inputText: ${output.env.CITY}
+- hideKeyboard
+
+- scrollUntilVisible:
+    element:
+      text: 'Postal Code'
+- tapOn: 'Postal Code'
+- inputText: ${output.env.POSTAL_CODE}
+- hideKeyboard
+- takeScreenshot: 'neg_non_numeric_phone_entered'
+
+- tapOn:
+    id: ${output.personalInformation.btnContinue}
+- takeScreenshot: 'neg_non_numeric_phone_error'
+
+- assertVisible: 'Phone Number must be number'
+- assertNotVisible: 'Experiences'

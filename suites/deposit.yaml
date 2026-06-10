@@ -1,0 +1,11 @@
+appId: vtglobal.appdev
+tags:
+  - deposit
+  - positive
+  - smoke
+env:
+  SUITE: deposit-pos-deposit-thb
+---
+- runFlow: ../config/init.yaml
+- runFlow: ../navigations/to-deposit.yaml
+- runFlow: ../scenarios/deposit/positive/deposit-thb.yaml

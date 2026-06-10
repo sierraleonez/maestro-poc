@@ -1,0 +1,13 @@
+appId: vtglobal.appdev
+tags:
+  - create-live
+  - negative
+  - create-account
+  - regression
+  - bug
+env:
+  SUITE: create-live-neg-back-to-step-one
+---
+- runFlow: ../../../../config/init.yaml
+- runFlow: ../../../../navigations/to-create-live.yaml
+- runFlow: ../../../../scenarios/create-live/negative/create-account/back-to-step-one.yaml

@@ -1,0 +1,58 @@
+appId: vtglobal.appdev
+---
+- launchApp:
+    clearState: true
+    arguments:
+      isMaestro: true
+- waitForAnimationToEnd:
+    timeout: 30000
+
+# Fresh install: onboarding then create live from video screen
+- runFlow:
+    when:
+      visible:
+        id: ${output.selectLang.radioEn}
+    commands:
+      - tapOn:
+          id: ${output.selectLang.radioEn}
+      - tapOn:
+          id: ${output.selectLang.btnContinue}
+      - extendedWaitUntil:
+          visible:
+            id: ${output.video.btnCreateLive}
+          timeout: 5000
+      - tapOn:
+          id: ${output.video.btnCreateLive}
+
+# Already on login screen: tap create live button
+- runFlow:
+    when:
+      visible:
+        id: ${output.login.btnCreateLive}
+    commands:
+      - runFlow:
+          when:
+            visible: 'Later'
+          commands:
+            - tapOn: 'Later'
+      - tapOn:
+          id: ${output.login.btnCreateLive}
+
+# Already logged in: navigate via Other tab
+- runFlow:
+    when:
+      visible:
+        id: ${output.home.listAccountLive}
+    commands:
+      - tapOn: 'Other'
+      - extendedWaitUntil:
+          visible:
+            id: 'other_btn_createLive'
+          timeout: 5000
+      - tapOn:
+          id: 'other_btn_createLive'
+
+- extendedWaitUntil:
+    visible:
+      id: ${output.createAccount.inputEmail}
+    timeout: 10000
