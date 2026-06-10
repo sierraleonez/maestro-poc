@@ -1,2 +1,4 @@
 evidence/*
 .kiro
+sql-server/node_modules
+sql-server/.env
