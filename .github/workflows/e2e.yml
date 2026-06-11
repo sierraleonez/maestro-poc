@@ -42,7 +42,7 @@ jobs:
             ~/.android/avd/*
             ~/.android/adb*
           # The key binds the cache to the specific API level
-          key: avd-api30-v1
+          key: avd-api33-v1
 
       - name: Enable KVM group perms
         run: |
