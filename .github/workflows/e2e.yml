@@ -55,7 +55,7 @@ jobs:
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 33
           target: google_apis
           arch: x86_64
           force-avd-creation: false
@@ -68,7 +68,7 @@ jobs:
       - name: Run Maestro Flows on Cached Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 33
           target: google_apis
           arch: x86_64
           force-avd-creation: false
@@ -83,12 +83,14 @@ jobs:
             adb install apk/app-release.apk
             
             # Execute your tests
-            maestro test --format junit --output report.xml maestro.yaml
+            chmod +x ./run.sh
+            ./run.sh create-live
       - name: Upload Test Reports & Screenshots
         uses: actions/upload-artifact@v4
         if: always() # CRITICAL: Ensures files upload even if Maestro tests fail
         with:
           name: maestro-test-results
           path: |
-            report.xml
+            report/report.html
+            evidence/*
             ~/.maestro/tests/
